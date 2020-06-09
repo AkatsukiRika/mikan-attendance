@@ -6,7 +6,7 @@ spring:
       additional-exclude: WEB-INF/**
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/MikanAttendance?useUnicode=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/MikanAttendance?useUnicode=true&serverTimezone=UTC&characterEncoding=UTF-8
     username: rika
     password: Inami_Anju_960207
 

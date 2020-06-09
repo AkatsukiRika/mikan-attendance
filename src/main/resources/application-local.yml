@@ -10,9 +10,17 @@ spring:
     username: root
     password: Inami_Anju_960207
 
+
 mybatis:
   type-aliases-package: com.example.mikanattendance.entity
 
 mapper:
   mappers: com.example.mikanattendance.basedao.IBaseDao
   identity: MySQL
+server:
+  servlet:
+    encoding:
+      force-request: true
+      force-response: true
+  tomcat:
+    uri-encoding: utf-8

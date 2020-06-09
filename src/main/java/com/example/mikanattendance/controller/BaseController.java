@@ -2,6 +2,7 @@ package com.example.mikanattendance.controller;
 
 import com.example.mikanattendance.entity.BasicResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import java.util.regex.*;
 
 public class BaseController {
     public BasicResponse exceptionHandler(Exception e) {
@@ -20,5 +21,15 @@ public class BaseController {
             basicResponse.setData(null);
         }
         return basicResponse;
+    }
+
+    public boolean isIllegalEmail(String email) {
+        String pattern = "^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$";
+        return !Pattern.matches(pattern, email);
+    }
+
+    public boolean isIllegalPhone(String phone) {
+        String pattern = "^1[34578]\\d{9}$";
+        return !Pattern.matches(pattern, phone);
     }
 }
