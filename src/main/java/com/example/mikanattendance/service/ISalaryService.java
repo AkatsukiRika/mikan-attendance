@@ -2,6 +2,8 @@ package com.example.mikanattendance.service;
 
 import com.example.mikanattendance.entity.Salary;
 
+import java.util.List;
+
 public interface ISalaryService {
     int insert(Salary salary);
 
@@ -9,5 +11,7 @@ public interface ISalaryService {
     
     int updateByPrimaryKeySelective(Salary salary);
 
-    Salary selectOne(Salary salary);
+    List<Salary> select(Salary salary);
+
+    List<Salary> selectAll();
 }

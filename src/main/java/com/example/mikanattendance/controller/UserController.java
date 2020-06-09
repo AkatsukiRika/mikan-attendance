@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class UserController {
     @Autowired
@@ -14,12 +16,12 @@ public class UserController {
     private final BaseController baseController = new BaseController();
 
     @ExceptionHandler(value = Exception.class)
-    public BasicResponse exceptionHandler(Exception e) {
+    private BasicResponse exceptionHandler(Exception e) {
         return baseController.exceptionHandler(e);
     }
 
-    public BasicResponse createResponse(boolean succeed, Object result, String errorMessage) {
-        return baseController.createResponse(succeed, result, errorMessage);
+    private BasicResponse createResponse(Object result) {
+        return baseController.createResponse(true, result, null);
     }
 
     @PostMapping(value = "/user/")
@@ -28,26 +30,29 @@ public class UserController {
         user.setUserPass(userPass);
         BasicResponse response = null;
         int result = userService.insert(user);
-        response = createResponse(true, result, null);
+        response = createResponse(result);
         return response;
     }
 
     @DeleteMapping(value = "/user/")
     public BasicResponse delete(@RequestBody User user) {
         int result = userService.delete(user);
-        return createResponse(true, result, null);
+        return createResponse(result);
     }
 
     // 必须传ID
     @PatchMapping(value = "/user/")
     public BasicResponse updateByPrimaryKeySelective(@RequestBody User user) {
         int result = userService.updateByPrimaryKeySelective(user);
-        return createResponse(true, result, null);
+        return createResponse(result);
     }
 
     @GetMapping(value = "/user/")
-    public BasicResponse selectOne(@RequestBody User user) {
-        User result = userService.selectOne(user);
-        return createResponse(true, result, null);
+    public BasicResponse select(@RequestBody User user) {
+        if(user == null) {
+            List<User> result = userService.selectAll();
+        }
+        List<User> result = userService.select(user);
+        return createResponse(result);
     }
 }

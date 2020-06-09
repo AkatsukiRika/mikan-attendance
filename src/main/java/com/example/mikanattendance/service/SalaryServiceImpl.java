@@ -1,9 +1,12 @@
 package com.example.mikanattendance.service;
 
 import com.example.mikanattendance.dao.ISalaryDao;
+import com.example.mikanattendance.entity.ProductOrder;
 import com.example.mikanattendance.entity.Salary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SalaryServiceImpl implements ISalaryService {
@@ -26,7 +29,12 @@ public class SalaryServiceImpl implements ISalaryService {
     }
 
     @Override
-    public Salary selectOne(Salary salary) {
-        return salaryDao.selectOne(salary);
+    public List<Salary> select(Salary salary) {
+        return salaryDao.select(salary);
+    }
+
+    @Override
+    public List<Salary> selectAll() {
+        return salaryDao.selectAll();
     }
 }

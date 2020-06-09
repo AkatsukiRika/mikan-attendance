@@ -2,6 +2,8 @@ package com.example.mikanattendance.service;
 
 import com.example.mikanattendance.entity.ProductOrder;
 
+import java.util.List;
+
 public interface IProductOrderService {
     int insert(ProductOrder productOrder);
 
@@ -9,5 +11,7 @@ public interface IProductOrderService {
     
     int updateByPrimaryKeySelective(ProductOrder productOrder);
 
-    ProductOrder selectOne(ProductOrder productOrder);
+    List<ProductOrder> select(ProductOrder productOrder);
+
+    List<ProductOrder> selectAll();
 }

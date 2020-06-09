@@ -1,9 +1,12 @@
 package com.example.mikanattendance.service;
 
 import com.example.mikanattendance.dao.IUserDao;
+import com.example.mikanattendance.entity.Suggestion;
 import com.example.mikanattendance.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -26,7 +29,12 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User selectOne(User user) {
-        return userDao.selectOne(user);
+    public List<User> select(User user) {
+        return userDao.select(user);
+    }
+
+    @Override
+    public List<User> selectAll() {
+        return userDao.selectAll();
     }
 }

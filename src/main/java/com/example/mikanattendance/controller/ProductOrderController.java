@@ -6,6 +6,8 @@ import com.example.mikanattendance.service.IProductOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ProductOrderController {
     @Autowired
@@ -13,38 +15,41 @@ public class ProductOrderController {
     private final BaseController baseController = new BaseController();
 
     @ExceptionHandler(value = Exception.class)
-    public BasicResponse exceptionHandler(Exception e) {
+    private BasicResponse exceptionHandler(Exception e) {
         return baseController.exceptionHandler(e);
     }
 
-    public BasicResponse createResponse(boolean succeed, Object result, String errorMessage) {
-        return baseController.createResponse(succeed, result, errorMessage);
+    private BasicResponse createResponse(Object result) {
+        return baseController.createResponse(true, result, null);
     }
 
     @PostMapping(value = "/productOrder/")
     public BasicResponse insert(@RequestBody ProductOrder productOrder) {
         BasicResponse response = null;
         int result = productOrderService.insert(productOrder);
-        response = createResponse(true, result, null);
+        response = createResponse(result);
         return response;
     }
 
     @DeleteMapping(value = "/productOrder/")
     public BasicResponse delete(@RequestBody ProductOrder productOrder) {
         int result = productOrderService.delete(productOrder);
-        return createResponse(true, result, null);
+        return createResponse(result);
     }
 
     // 必须传ID
     @PatchMapping(value = "/productOrder/")
     public BasicResponse updateByPrimaryKeySelective(@RequestBody ProductOrder productOrder) {
         int result = productOrderService.updateByPrimaryKeySelective(productOrder);
-        return createResponse(true, result, null);
+        return createResponse(result);
     }
 
     @GetMapping(value = "/productOrder/")
-    public BasicResponse selectOne(@RequestBody ProductOrder productOrder) {
-        ProductOrder result = productOrderService.selectOne(productOrder);
-        return createResponse(true, result, null);
+    public BasicResponse select(@RequestBody ProductOrder productOrder) {
+        if(productOrder == null) {
+            List<ProductOrder> result = productOrderService.selectAll();
+        }
+        List<ProductOrder> result = productOrderService.select(productOrder);
+        return createResponse(result);
     }
 }

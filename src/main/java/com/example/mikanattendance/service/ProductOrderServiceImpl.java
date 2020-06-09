@@ -5,6 +5,8 @@ import com.example.mikanattendance.entity.ProductOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductOrderServiceImpl implements IProductOrderService {
     @Autowired
@@ -26,7 +28,12 @@ public class ProductOrderServiceImpl implements IProductOrderService {
     }
 
     @Override
-    public ProductOrder selectOne(ProductOrder productOrder) {
-        return productOrderDao.selectOne(productOrder);
+    public List<ProductOrder> select(ProductOrder productOrder) {
+        return productOrderDao.select(productOrder);
+    }
+
+    @Override
+    public List<ProductOrder> selectAll() {
+        return productOrderDao.selectAll();
     }
 }

@@ -2,6 +2,8 @@ package com.example.mikanattendance.service;
 
 import com.example.mikanattendance.entity.Suggestion;
 
+import java.util.List;
+
 public interface ISuggestionService {
     int insert(Suggestion suggestion);
 
@@ -9,5 +11,7 @@ public interface ISuggestionService {
     
     int updateByPrimaryKeySelective(Suggestion suggestion);
 
-    Suggestion selectOne(Suggestion suggestion);
+    List<Suggestion> select(Suggestion suggestion);
+
+    List<Suggestion> selectAll();
 }

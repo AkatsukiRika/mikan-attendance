@@ -1,9 +1,12 @@
 package com.example.mikanattendance.service;
 
 import com.example.mikanattendance.dao.ISuggestionDao;
+import com.example.mikanattendance.entity.Salary;
 import com.example.mikanattendance.entity.Suggestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SuggestionServiceImpl implements ISuggestionService {
@@ -26,7 +29,12 @@ public class SuggestionServiceImpl implements ISuggestionService {
     }
 
     @Override
-    public Suggestion selectOne(Suggestion suggestion) {
-        return suggestionDao.selectOne(suggestion);
+    public List<Suggestion> select(Suggestion suggestion) {
+        return suggestionDao.select(suggestion);
+    }
+
+    @Override
+    public List<Suggestion> selectAll() {
+        return suggestionDao.selectAll();
     }
 }

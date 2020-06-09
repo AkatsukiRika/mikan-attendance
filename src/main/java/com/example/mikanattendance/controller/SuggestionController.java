@@ -6,6 +6,8 @@ import com.example.mikanattendance.service.ISuggestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class SuggestionController {
     @Autowired
@@ -13,38 +15,41 @@ public class SuggestionController {
     private final BaseController baseController = new BaseController();
 
     @ExceptionHandler(value = Exception.class)
-    public BasicResponse exceptionHandler(Exception e) {
+    private BasicResponse exceptionHandler(Exception e) {
         return baseController.exceptionHandler(e);
     }
 
-    public BasicResponse createResponse(boolean succeed, Object result, String errorMessage) {
-        return baseController.createResponse(succeed, result, errorMessage);
+    private BasicResponse createResponse(Object result) {
+        return baseController.createResponse(true, result, null);
     }
 
     @PostMapping(value = "/suggestion/")
     public BasicResponse insert(@RequestBody Suggestion suggestion) {
         BasicResponse response = null;
         int result = suggestionService.insert(suggestion);
-        response = createResponse(true, result, null);
+        response = createResponse(result);
         return response;
     }
 
     @DeleteMapping(value = "/suggestion/")
     public BasicResponse delete(@RequestBody Suggestion suggestion) {
         int result = suggestionService.delete(suggestion);
-        return createResponse(true, result, null);
+        return createResponse(result);
     }
 
     // 必须传ID
     @PatchMapping(value = "/suggestion/")
     public BasicResponse updateByPrimaryKeySelective(@RequestBody Suggestion suggestion) {
         int result = suggestionService.updateByPrimaryKeySelective(suggestion);
-        return createResponse(true, result, null);
+        return createResponse(result);
     }
 
     @GetMapping(value = "/suggestion/")
-    public BasicResponse selectOne(@RequestBody Suggestion suggestion) {
-        Suggestion result = suggestionService.selectOne(suggestion);
-        return createResponse(true, result, null);
+    public BasicResponse select(@RequestBody Suggestion suggestion) {
+        if(suggestion == null) {
+            List<Suggestion> result = suggestionService.selectAll();
+        }
+        List<Suggestion> result = suggestionService.select(suggestion);
+        return createResponse(result);
     }
 }

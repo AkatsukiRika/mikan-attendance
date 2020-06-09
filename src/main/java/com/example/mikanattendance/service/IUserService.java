@@ -2,6 +2,8 @@ package com.example.mikanattendance.service;
 
 import com.example.mikanattendance.entity.User;
 
+import java.util.List;
+
 public interface IUserService {
     int insert(User user);
 
@@ -9,5 +11,7 @@ public interface IUserService {
 
     int updateByPrimaryKeySelective(User user);
 
-    User selectOne(User user);
+    List<User> select(User user);
+
+    List<User> selectAll();
 }
