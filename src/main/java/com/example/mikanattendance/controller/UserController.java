@@ -1,5 +1,6 @@
 package com.example.mikanattendance.controller;
 
+import com.example.mikanattendance.annotation.UserLoginToken;
 import com.example.mikanattendance.entity.BasicResponse;
 import com.example.mikanattendance.entity.User;
 import com.example.mikanattendance.service.IUserService;
@@ -25,14 +26,16 @@ public class UserController {
     }
 
     private String validator(String email, String phone) {
+        // 允许没有email或者手机号
+        if(email == null || phone == null) return "";
         if(baseController.isIllegalEmail(email) || baseController.isIllegalPhone(phone)) {
-            String errorMessage = "illegal email or phone number";
-            return errorMessage;
+            return "illegal email or phone number";
         }
         return "";
     }
 
     @PostMapping(value = "/user/")
+    @UserLoginToken
     public BasicResponse insert(@RequestBody User user) {
         BasicResponse response = null;
 
@@ -53,6 +56,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/user/")
+    @UserLoginToken
     public BasicResponse delete(@RequestBody User user) {
         int result = userService.delete(user);
         return createResponse(true, result, null);
@@ -60,6 +64,7 @@ public class UserController {
 
     // 必须传ID
     @PatchMapping(value = "/user/")
+    @UserLoginToken
     public BasicResponse updateByPrimaryKeySelective(@RequestBody User user) {
         // 检验email跟手机号
         String email = user.getEmail();
@@ -80,5 +85,20 @@ public class UserController {
         }
         List<User> result = userService.select(user);
         return createResponse(true, result, null);
+    }
+
+    @PostMapping(value = "/user/login")
+    public BasicResponse login(@RequestBody User user) {
+        String userPass = DigestUtils.md5DigestAsHex(user.getUserPass().getBytes());
+        user.setUserPass(userPass);
+        List<User> usersForLogin = userService.select(user);
+        if(usersForLogin.size() == 0) {
+            return createResponse(false, null, "login failed");
+        }
+        else {
+            User userForLogin = usersForLogin.get(0);
+            String token = baseController.getToken(userForLogin);
+            return createResponse(true, token, "login succeeded");
+        }
     }
 }
