@@ -1,2 +1,2 @@
 # mikan-attendance
-手机软件大作业后端部分（采用SpringBoot框架实现）
+采用 SpringBoot 框架实现的考勤 APP 后端部分
