@@ -45,9 +45,10 @@ public class SalaryController {
     }
 
     @GetMapping(value = "/salary/")
-    public BasicResponse select(@RequestBody Salary salary) {
+    public BasicResponse select(Salary salary) {
         if(salary == null) {
             List<Salary> result = salaryService.selectAll();
+            return createResponse(result);
         }
         List<Salary> result = salaryService.select(salary);
         return createResponse(result);

@@ -58,9 +58,10 @@ public class AttendanceController {
     }
 
     @GetMapping(value = "/attendance/")
-    public BasicResponse select(@RequestBody Attendance attendance) {
+    public BasicResponse select(Attendance attendance) {
         if(attendance == null) {
             List<Attendance> result = attendanceService.selectAll();
+            return createResponse(true, result, null);
         }
         List<Attendance> result = attendanceService.select(attendance);
         return createResponse(true, result, null);

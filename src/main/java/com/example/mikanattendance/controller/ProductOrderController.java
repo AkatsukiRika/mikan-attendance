@@ -45,9 +45,10 @@ public class ProductOrderController {
     }
 
     @GetMapping(value = "/productOrder/")
-    public BasicResponse select(@RequestBody ProductOrder productOrder) {
+    public BasicResponse select(ProductOrder productOrder) {
         if(productOrder == null) {
             List<ProductOrder> result = productOrderService.selectAll();
+            return createResponse(result);
         }
         List<ProductOrder> result = productOrderService.select(productOrder);
         return createResponse(result);
