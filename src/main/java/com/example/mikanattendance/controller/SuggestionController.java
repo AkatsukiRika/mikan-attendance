@@ -45,9 +45,10 @@ public class SuggestionController {
     }
 
     @GetMapping(value = "/suggestion/")
-    public BasicResponse select(@RequestBody Suggestion suggestion) {
+    public BasicResponse select(Suggestion suggestion) {
         if(suggestion == null) {
             List<Suggestion> result = suggestionService.selectAll();
+            return createResponse(result);
         }
         List<Suggestion> result = suggestionService.select(suggestion);
         return createResponse(result);

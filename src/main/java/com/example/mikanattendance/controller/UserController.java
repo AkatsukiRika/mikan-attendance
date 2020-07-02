@@ -47,9 +47,10 @@ public class UserController {
             response = createResponse(false, null, errorMessage);
             return response;
         }
-
+        // 密码加密
         String userPass = DigestUtils.md5DigestAsHex(user.getUserPass().getBytes());
         user.setUserPass(userPass);
+
         int result = userService.insert(user);
         response = createResponse(true, result, null);
         return response;
@@ -73,15 +74,22 @@ public class UserController {
         if(!errorMessage.equals("")) {
             return createResponse(false, null, errorMessage);
         }
+        // 密码加密
+        if (user.getUserPass() != null && !user.getUserPass().equals("")) {
+            String userPass = DigestUtils.md5DigestAsHex(user.getUserPass().getBytes());
+            user.setUserPass(userPass);
+        }
 
         int result = userService.updateByPrimaryKeySelective(user);
         return createResponse(true, result, null);
     }
 
     @GetMapping(value = "/user/")
-    public BasicResponse select(@RequestBody User user) {
+    @UserLoginToken
+    public BasicResponse select(User user) {
         if(user == null) {
             List<User> result = userService.selectAll();
+            return createResponse(true, result, null);
         }
         List<User> result = userService.select(user);
         return createResponse(true, result, null);
